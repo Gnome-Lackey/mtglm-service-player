@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "PlayerResponseSchema",
+  "properties": {
+    "id": {
+      "type": "string",
+      "title": "PlayerId",
+      "pattern": "^[a-zA-Z0-9-]+$"
+    },
+    "name": {
+      "type": "string",
+      "title": "PlayerName",
+      "pattern": "^[a-zA-Z0-9-'_ ]+$"
+    },
+    "matches": {
+      "type": "array",
+      "title": "PlayerMatchIds",
+      "items": {
+        "type": "string",
+        "title": "PlayerMatchId"
+      }
+    }
+  }
+}

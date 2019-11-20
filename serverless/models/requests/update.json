@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "UpdatePlayerSchema",
+  "properties": {
+    "name": {
+      "type": "string",
+      "title": "PlayerName"
+    },
+    "totalWins": {
+      "type": "integer",
+      "title": "PlayerTotalWins"
+    },
+    "totalLosses": {
+      "type": "integer",
+      "title": "PlayerTotalLosses"
+    },
+    "matches": {
+      "type": "array",
+      "title": "PlayerMatchIds",
+      "items": {
+        "type": "string",
+        "title": "PlayerMatchId"
+      }
+    }
+  }
+}

@@ -1,0 +1,39 @@
+api:
+  info:
+    version: "1"
+    title: "Player API"
+    description: "API for generic player details."
+models:
+  - name: "CreatePlayerRequest"
+    description: "Create player request body."
+    contentType: "application/json"
+    schema: ${file(models/requests/create.json)}
+  - name: "UpdatePlayerRequest"
+    description: "Update player request body."
+    contentType: "application/json"
+    schema: ${file(models/requests/update.json)}
+  - name: "CreatePlayerResponse"
+    description: "Create player response body."
+    contentType: "application/json"
+    schema: ${file(models/responses/player.json)}
+  - name: "PlayerResponse"
+    description: "Get specific player response body."
+    contentType: "application/json"
+    schema: ${file(models/responses/player.json)}
+  - name: "PlayersResponse"
+    description: "List of player(s) response body."
+    contentType: "application/json"
+    schema: ${file(models/responses/players.json)}
+  - name: "SuccessResponse"
+    description: "Success message response body."
+    contentType: "application/json"
+    schema: ${file(models/responses/success.json)}
+resources:
+  - path: Create
+    description: "Creates a new player."
+  - path: Get
+    description: "Retrieves a player."
+  - path: Delete
+    description: "Deletes a player."
+  - path: Update
+    description: "Updates an existing player."

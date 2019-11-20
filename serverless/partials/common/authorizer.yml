@@ -1,0 +1,2 @@
+authorizerId: { Ref: PlayersApiGatewayAuthorizer }
+type: COGNITO_USER_POOLS
