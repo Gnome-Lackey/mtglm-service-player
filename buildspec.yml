@@ -5,18 +5,6 @@ phases:
     runtime-versions:
       nodejs: 10
     commands:
-      - echo "Setting up ssh-git script ..."
-      - export GIT_SSH=./codebuild/ssh-git.sh
-      - chmod +x ./codebuild/ssh-git.sh
-      - echo "Finished setting up ssh-git script"
-      - echo "Creating ssh key ..."
-      - touch ./codebuild/id_rsa
-      - echo "-----BEGIN OPENSSH PRIVATE KEY-----" > ./codebuild/id_rsa
-      - echo $SDK_SSH >> ./codebuild/id_rsa
-      - echo "-----END OPENSSH PRIVATE KEY-----" >> ./codebuild/id_rsa
-      - export PKEY=./codebuild/id_rsa
-      - chmod 400 ./codebuild/id_rsa
-      - echo "Created ssh key"
       - echo "Installing global dependencies ..."
       - apt-get install -y yarn
       - yarn global add serverless eslint
