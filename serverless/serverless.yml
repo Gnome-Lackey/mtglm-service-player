@@ -8,7 +8,6 @@ provider:
   memorySize: 128
   environment:
     ALLOWED_ORIGIN: ${env:ALLOWED_ORIGIN}
-    TABLE_NAME: ${self:provider.stage}-mtglm-players
 
 package:
   include:
@@ -23,10 +22,6 @@ plugins:
 resources:
   Resources:
     PlayersApiGatewayAuthorizer: ${file(partials/apiGatewayAuthorizer.yml)}
-    PlayersTable: ${file(partials/dynamo.yml)}
-  Outputs:
-    playerTableArn: ${file(partials/outputs/TableArn.yml)}
-    playerTableName: ${file(partials/outputs/TableName.yml)}
 
 custom:
   documentation: ${file(partials/documentation.yml)}
@@ -37,6 +32,4 @@ custom:
 
 functions:
   Get: ${file(partials/functions/get.yml)}
-  Update: ${file(partials/functions/update.yml)}
-  Create: ${file(partials/functions/create.yml)}
-  Delete: ${file(partials/functions/delete.yml)}
+  Query: ${file(partials/functions/query.yml)}

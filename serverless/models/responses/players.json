@@ -16,13 +16,32 @@
         "title": "PlayerName",
         "pattern": "^[a-zA-Z0-9-'_ ]+$"
       },
-      "matches": {
-        "type": "array",
-        "title": "PlayerMatchIds",
-        "items": {
-          "type": "string",
-          "title": "PlayerMatchId"
-        }
+      "userName": {
+        "type": "string",
+        "title": "PlayerUserName",
+        "pattern": "^[a-zA-Z0-9-'_ ]+$"
+      },
+      "email": {
+        "type": "string",
+        "title": "PlayerEmail",
+        "pattern": "^[a-zA-Z0-9-'_ ]+$"
+      },
+      "totalWins": {
+        "type": "integer",
+        "title": "PlayerTotalWins",
+        "pattern": "^[a-zA-Z0-9-'_ ]+$"
+      },
+      "totalLosses": {
+        "type": "integer",
+        "title": "PlayerTotalLosses"
+      },
+      "accountType": {
+        "type": "integer",
+        "title": "PlayerAccountType"
+      },
+      "isFirstTimeLogin": {
+        "type": "boolean",
+        "title": "PlayerIsFirstTimeLogin"
       }
     }
   }
