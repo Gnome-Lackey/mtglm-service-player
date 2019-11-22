@@ -1,4 +1,4 @@
-import requestMiddleware from "mtglm-service-sdk/build/middleware/request";
+import requestMiddleware from "mtglm-service-sdk/build/middleware/requestResource";
 
 import { LambdaResponse } from "mtglm-service-sdk/build/models/Lambda";
 import { PlayerPathParameters } from "mtglm-service-sdk/build/models/PathParameters";
