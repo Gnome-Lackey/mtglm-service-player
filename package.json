@@ -1,5 +1,5 @@
 {
-  "name": "mtglm-campaign-lambda",
+  "name": "mtglm-players-lambda",
   "parser": "babel-eslint",
   "version": "1.0.0",
   "description": "Player services for mtglm application.",
