@@ -2,4 +2,4 @@ Description: 'ARN for the dynamo players table'
 Value:
   "Fn::GetAtt": [PlayersTable, Arn]
 Export:
-  Name: ${self:provider.stage}-PlayerTableArn
+  Name: ${self:provider.stage}-mtglm-PlayerTableArn
