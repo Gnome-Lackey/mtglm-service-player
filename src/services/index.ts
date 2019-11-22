@@ -24,7 +24,7 @@ const buildResponse = (result: AttributeMap): PlayerResponse => {
 };
 
 export const create = async (data: PlayerCreateRequest): Promise<PlayerResponse> => {
-  const item = mapper.toItem(data);
+  const item = mapper.toCreateItem(data);
 
   const result = await client.create({ playerId: item.playerId }, item);
 
@@ -47,7 +47,7 @@ export const update = async (
   playerId: string,
   data: PlayerUpdateRequest
 ): Promise<PlayerResponse> => {
-  const item = mapper.toItem(data);
+  const item = mapper.toUpdateItem(data);
 
   const result = await client.update({ playerId }, item);
 
