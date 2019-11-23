@@ -5,13 +5,27 @@
   "properties": {
     "id": {
       "type": "string",
-      "title": "PlayerId",
-      "pattern": "^[a-zA-Z0-9-]+$"
+      "title": "PlayerId"
     },
     "name": {
       "type": "string",
-      "title": "PlayerName",
-      "pattern": "^[a-zA-Z0-9-'_ ]+$"
+      "title": "PlayerName"
+    },
+    "userName": {
+      "type": "string",
+      "title": "PlayerUserName"
+    },
+    "email": {
+      "type": "string",
+      "title": "PlayerEmail"
+    },
+    "totalWins": {
+      "type": "integer",
+      "title": "PlayerTotalWins"
+    },
+    "totalLosses": {
+      "type": "integer",
+      "title": "PlayerTotalLosses"
     },
     "matches": {
       "type": "array",

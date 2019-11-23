@@ -7,6 +7,14 @@
       "type": "string",
       "title": "PlayerName"
     },
+    "userName": {
+      "type": "string",
+      "title": "PlayerUserName"
+    },
+    "email": {
+      "type": "string",
+      "title": "PlayerEmail"
+    },
     "totalWins": {
       "type": "integer",
       "title": "PlayerTotalWins"
