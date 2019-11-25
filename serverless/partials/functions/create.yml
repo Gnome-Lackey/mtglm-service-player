@@ -29,3 +29,7 @@ iamRoleStatements:
       - dynamodb:PutItem
     Resource:
       - Fn::GetAtt: [PlayersTable, Arn]
+  - Effect: Allow
+    Action:
+      - cognito-idp:AdminUpdateUserAttribute
+    Resource: ${self:custom.userPoolArn}

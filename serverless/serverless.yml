@@ -9,6 +9,8 @@ provider:
   environment:
     ALLOWED_ORIGIN: ${env:ALLOWED_ORIGIN}
     TABLE_NAME: ${self:provider.stage}-mtglm-players
+    USER_POOL_ID:
+      Fn::ImportValue: ${self:provider.stage}-mtglm-UserPoolId
 
 package:
   include:

@@ -1,5 +1,7 @@
 import { AttributeMap } from "aws-sdk/clients/dynamodb";
 
+import * as cognito from "mtglm-service-sdk/build/clients/cognito";
+
 import { MTGLMDynamoClient } from "mtglm-service-sdk/build/clients/dynamo";
 
 import * as mapper from "mtglm-service-sdk/build/mappers/player";
@@ -33,6 +35,13 @@ export const create = async (data: PlayerCreateRequest): Promise<PlayerResponse>
   const item = mapper.toCreateItem(data);
 
   const result = await client.create({ playerId: item.playerId }, item);
+
+  await cognito.adminUpdateUserAttribute(data.userName, [
+    {
+      Name: "custom:firstTimeLogin",
+      Value: "0"
+    }
+  ]);
 
   return buildResponse(result);
 };
