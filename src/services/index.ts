@@ -28,11 +28,11 @@ const buildResponse = (result: AttributeMap): PlayerResponse => {
 };
 
 export const create = async (data: PlayerCreateRequest): Promise<PlayerResponse> => {
-  if (data.epithet === "[[random]]") {
-    data.epithet = Sentencer.make("{{ adjective }} {{ noun }}");
-  }
-
   const item = mapper.toCreateItem(data);
+
+  if (item.epithet === "[[random]]") {
+    item.epithet = Sentencer.make("{{ adjective }} {{ noun }}");
+  }
 
   const result = await client.create({ playerId: item.playerId }, item);
 
