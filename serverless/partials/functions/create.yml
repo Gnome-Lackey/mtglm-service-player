@@ -31,5 +31,5 @@ iamRoleStatements:
       - Fn::GetAtt: [PlayersTable, Arn]
   - Effect: Allow
     Action:
-      - cognito-idp:AdminUpdateUserAttribute
+      - cognito-idp:AdminUpdateUserAttributes
     Resource: ${self:custom.userPoolArn}
