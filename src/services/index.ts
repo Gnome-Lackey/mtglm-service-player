@@ -13,9 +13,9 @@ import { PROPERTIES_PLAYER } from "mtglm-service-sdk/build/constants/mutable_pro
 
 const Sentencer = require("sentencer");
 
-const { PLAYER_TABLE_NAME } = process.env;
+const { TABLE_NAME } = process.env;
 
-const client = new MTGLMDynamoClient(PLAYER_TABLE_NAME, PROPERTIES_PLAYER);
+const client = new MTGLMDynamoClient(TABLE_NAME, PROPERTIES_PLAYER);
 
 const buildResponse = (result: AttributeMap): PlayerResponse => {
   const node = mapper.toNode(result);
