@@ -2,6 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
   "title": "PlayerResponseSchema",
+  "required": ["id", "name", "userName", "email"],
   "properties": {
     "id": {
       "type": "string",
@@ -26,6 +27,17 @@
     "totalLosses": {
       "type": "integer",
       "title": "PlayerTotalLosses"
+    },
+    "epithet": {
+      "type": "string",
+      "title": "PlayerEpithet"
+    },
+    "favoriteColors": {
+      "type": "array",
+      "title": "PlayerFavoriteColors",
+      "items": {
+        "type": "string"
+      }
     },
     "matches": {
       "type": "array",

@@ -23,6 +23,17 @@
       "type": "integer",
       "title": "PlayerTotalLosses"
     },
+    "epithet": {
+      "type": "string",
+      "title": "PlayerEpithet"
+    },
+    "favoriteColors": {
+      "type": "array",
+      "title": "PlayerFavoriteColors",
+      "items": {
+        "type": "string"
+      }
+    },
     "matches": {
       "type": "array",
       "title": "PlayerMatchIds",
