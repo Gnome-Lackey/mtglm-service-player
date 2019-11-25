@@ -1,7 +1,7 @@
 Type: AWS::ApiGateway::Authorizer
 Properties: 
   AuthorizerResultTtlInSeconds: 10
-  IdentitySource: method.request.header.authorization
+  IdentitySource: method.request.header.Authorization
   Name: ${self:custom.userPoolName}
   RestApiId: 
     Ref: ApiGatewayRestApi
