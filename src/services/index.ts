@@ -9,6 +9,8 @@ import { PlayerCreateRequest, PlayerUpdateRequest } from "mtglm-service-sdk/buil
 
 import { PROPERTIES_PLAYER } from "mtglm-service-sdk/build/constants/mutable_properties";
 
+const Sentencer = require("sentencer");
+
 const { PLAYER_TABLE_NAME } = process.env;
 
 const client = new MTGLMDynamoClient(PLAYER_TABLE_NAME, PROPERTIES_PLAYER);
@@ -24,6 +26,10 @@ const buildResponse = (result: AttributeMap): PlayerResponse => {
 };
 
 export const create = async (data: PlayerCreateRequest): Promise<PlayerResponse> => {
+  if (data.epithet === "[[random]]") {
+    data.epithet = Sentencer.make("{{ adjective }} {{ noun }}");
+  }
+
   const item = mapper.toCreateItem(data);
 
   const result = await client.create({ playerId: item.playerId }, item);
