@@ -5,6 +5,7 @@ import { LambdaResponse } from "mtglm-service-sdk/build/models/Lambda";
 import { PlayerCreateRequest, PlayerUpdateRequest } from "mtglm-service-sdk/build/models/Requests";
 
 import * as service from "../services";
+import { PlayerQueryParameters } from "mtglm-service-sdk/build/models/QueryParameters";
 
 export const create = async (data: PlayerCreateRequest): Promise<LambdaResponse> => {
   try {
@@ -29,6 +30,20 @@ export const get = async (playerId: string): Promise<LambdaResponse> => {
     return handleSuccess(result);
   } catch (error) {
     logFailure("DYNAMO", "GET player", error);
+
+    return handleError(error);
+  }
+};
+
+export const query = async (filters: PlayerQueryParameters): Promise<LambdaResponse> => {
+  try {
+    const result = await service.query(filters);
+
+    logSuccess("DYNAMO", "GET all players", result);
+
+    return handleSuccess(result);
+  } catch (error) {
+    logFailure("DYNAMO", "GET all players", error);
 
     return handleError(error);
   }

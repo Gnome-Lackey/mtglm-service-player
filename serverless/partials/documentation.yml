@@ -37,3 +37,5 @@ resources:
     description: "Deletes a player."
   - path: Update
     description: "Updates an existing player."
+  - path: Query
+    description: "Retrieves all players."

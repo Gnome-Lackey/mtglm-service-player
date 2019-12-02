@@ -8,6 +8,7 @@ import * as mapper from "mtglm-service-sdk/build/mappers/player";
 
 import { SuccessResponse, PlayerResponse } from "mtglm-service-sdk/build/models/Responses";
 import { PlayerCreateRequest, PlayerUpdateRequest } from "mtglm-service-sdk/build/models/Requests";
+import { PlayerQueryParameters } from "mtglm-service-sdk/build/models/QueryParameters";
 
 import { PROPERTIES_PLAYER } from "mtglm-service-sdk/build/constants/mutable_properties";
 
@@ -44,6 +45,12 @@ export const create = async (data: PlayerCreateRequest): Promise<PlayerResponse>
   ]);
 
   return buildResponse(result);
+};
+
+export const query = async (filters: PlayerQueryParameters): Promise<PlayerResponse[]> => {
+  const results = await client.query(filters);
+ 
+  return results.map(buildResponse);
 };
 
 export const get = async (playerId: string): Promise<PlayerResponse> => {
