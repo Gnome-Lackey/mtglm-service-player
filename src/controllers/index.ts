@@ -35,9 +35,9 @@ export const get = async (playerId: string): Promise<LambdaResponse> => {
   }
 };
 
-export const query = async (filters: PlayerQueryParameters): Promise<LambdaResponse> => {
+export const query = async (queryParams: PlayerQueryParameters): Promise<LambdaResponse> => {
   try {
-    const result = await service.query(filters);
+    const result = await service.query(queryParams);
 
     logSuccess("DYNAMO", "GET all players", result);
 

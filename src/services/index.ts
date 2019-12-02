@@ -4,7 +4,8 @@ import * as cognito from "mtglm-service-sdk/build/clients/cognito";
 
 import { MTGLMDynamoClient } from "mtglm-service-sdk/build/clients/dynamo";
 
-import * as mapper from "mtglm-service-sdk/build/mappers/player";
+import * as playerMapper from "mtglm-service-sdk/build/mappers/player";
+import * as queryMapper from "mtglm-service-sdk/build/mappers/query";
 
 import { SuccessResponse, PlayerResponse } from "mtglm-service-sdk/build/models/Responses";
 import { PlayerCreateRequest, PlayerUpdateRequest } from "mtglm-service-sdk/build/models/Requests";
@@ -19,8 +20,8 @@ const { TABLE_NAME } = process.env;
 const client = new MTGLMDynamoClient(TABLE_NAME, PROPERTIES_PLAYER);
 
 const buildResponse = (result: AttributeMap): PlayerResponse => {
-  const node = mapper.toNode(result);
-  const view = mapper.toView(node);
+  const node = playerMapper.toNode(result);
+  const view = playerMapper.toView(node);
 
   return {
     ...view,
@@ -29,7 +30,7 @@ const buildResponse = (result: AttributeMap): PlayerResponse => {
 };
 
 export const create = async (data: PlayerCreateRequest): Promise<PlayerResponse> => {
-  const item = mapper.toCreateItem(data);
+  const item = playerMapper.toCreateItem(data);
 
   if (item.epithet === "[[random]]") {
     item.epithet = Sentencer.make("{{ adjective }} {{ noun }}");
@@ -47,7 +48,9 @@ export const create = async (data: PlayerCreateRequest): Promise<PlayerResponse>
   return buildResponse(result);
 };
 
-export const query = async (filters: PlayerQueryParameters): Promise<PlayerResponse[]> => {
+export const query = async (queryParams: PlayerQueryParameters): Promise<PlayerResponse[]> => {
+  const filters = queryMapper.toPlayerFilters(queryParams);
+
   const results = await client.query(filters);
  
   return results.map(buildResponse);
@@ -69,7 +72,7 @@ export const update = async (
   playerId: string,
   data: PlayerUpdateRequest
 ): Promise<PlayerResponse> => {
-  const item = mapper.toUpdateItem(data);
+  const item = playerMapper.toUpdateItem(data);
 
   const result = await client.update({ playerId }, item);
 
