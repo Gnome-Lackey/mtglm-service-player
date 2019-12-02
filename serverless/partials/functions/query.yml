@@ -4,7 +4,7 @@ tags:
   query: player
 events:
   - http:
-      method: query
+      method: get
       path: players
       authorizer: ${file(partials/common/authorizer.yml)}
       cors: ${file(partials/common/cors.yml)}
