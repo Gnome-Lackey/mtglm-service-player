@@ -58,11 +58,13 @@ export const query = async (queryParams: PlayerQueryParameters): Promise<PlayerR
   let players = await playerClient.query(filters);
 
   if (queryParams.season) {
-    const season = await seasonClient.query({ seasonId: queryParams.season });
+    const seasons = await seasonClient.query({ seasonId: queryParams.season });
 
-    const seasonPlayerIds = season[0] ? season[0].playerIds as string[] : [];
+    const seasonPlayerIds = seasons[0] ? (seasons[0].playerIds as string[]) : [];
 
-    players = players.filter((player) => seasonPlayerIds.find((playerId) => playerId === player.id));
+    players = players.filter((player) =>
+      seasonPlayerIds.find((playerId) => playerId === player.playerId)
+    );
   }
 
   return players.map(buildResponse);
