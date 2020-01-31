@@ -52,6 +52,10 @@ export const query = async (queryParams: PlayerQueryParameters): Promise<PlayerR
   const filters = queryMapper.toPlayerFilters(queryParams);
 
   const results = await client.query(filters);
+
+  if (queryParams.season) {
+
+  }
  
   return results.map(buildResponse);
 };
