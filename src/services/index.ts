@@ -11,13 +11,17 @@ import { SuccessResponse, PlayerResponse } from "mtglm-service-sdk/build/models/
 import { PlayerCreateRequest, PlayerUpdateRequest } from "mtglm-service-sdk/build/models/Requests";
 import { PlayerQueryParameters } from "mtglm-service-sdk/build/models/QueryParameters";
 
-import { PROPERTIES_PLAYER } from "mtglm-service-sdk/build/constants/mutable_properties";
+import {
+  PROPERTIES_PLAYER,
+  PROPERTIES_SEASON
+} from "mtglm-service-sdk/build/constants/mutable_properties";
 
 const Sentencer = require("sentencer");
 
-const { TABLE_NAME } = process.env;
+const { PLAYER_TABLE_NAME, SEASON_TABLE_NAME } = process.env;
 
-const client = new MTGLMDynamoClient(TABLE_NAME, PROPERTIES_PLAYER);
+const playerClient = new MTGLMDynamoClient(PLAYER_TABLE_NAME, PROPERTIES_PLAYER);
+const seasonClient = new MTGLMDynamoClient(SEASON_TABLE_NAME, PROPERTIES_SEASON);
 
 const buildResponse = (result: AttributeMap): PlayerResponse => {
   const node = playerMapper.toNode(result);
@@ -36,7 +40,7 @@ export const create = async (data: PlayerCreateRequest): Promise<PlayerResponse>
     item.epithet = Sentencer.make("{{ adjective }} {{ noun }}");
   }
 
-  const result = await client.create({ playerId: item.playerId }, item);
+  const result = await playerClient.create({ playerId: item.playerId }, item);
 
   await cognito.adminUpdateUserAttribute(data.userName, [
     {
@@ -51,23 +55,27 @@ export const create = async (data: PlayerCreateRequest): Promise<PlayerResponse>
 export const query = async (queryParams: PlayerQueryParameters): Promise<PlayerResponse[]> => {
   const filters = queryMapper.toPlayerFilters(queryParams);
 
-  const results = await client.query(filters);
+  let players = await playerClient.query(filters);
 
   if (queryParams.season) {
+    const season = await seasonClient.fetchByKey({ seasonId: queryParams.season });
 
+    const seasonPlayerIds = season.playerIds as string[];
+
+    players = players.filter((player) => seasonPlayerIds.find((playerId) => playerId === player.id));
   }
- 
-  return results.map(buildResponse);
+
+  return players.map(buildResponse);
 };
 
 export const get = async (playerId: string): Promise<PlayerResponse> => {
-  const result = await client.fetchByKey({ playerId });
+  const result = await playerClient.fetchByKey({ playerId });
 
   return buildResponse(result);
 };
 
 export const remove = async (playerId: string): Promise<SuccessResponse> => {
-  await client.remove({ playerId });
+  await playerClient.remove({ playerId });
 
   return { message: "Successfully deleted player." };
 };
@@ -78,7 +86,7 @@ export const update = async (
 ): Promise<PlayerResponse> => {
   const item = playerMapper.toUpdateItem(data);
 
-  const result = await client.update({ playerId }, item);
+  const result = await playerClient.update({ playerId }, item);
 
   return buildResponse(result);
 };
