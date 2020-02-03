@@ -12,6 +12,10 @@ models:
     description: "Update player request body."
     contentType: "application/json"
     schema: ${file(models/requests/update.json)}
+  - name: "UpdatePlayerRoleRequest"
+    description: "Update player role request body."
+    contentType: "application/json"
+    schema: ${file(models/requests/updateRole.json)}
   - name: "CreatePlayerResponse"
     description: "Create player response body."
     contentType: "application/json"
