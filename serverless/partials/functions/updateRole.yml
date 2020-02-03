@@ -1,5 +1,5 @@
 name: ${self:provider.stage}-mtglm-players-role-put
-handler: build/handlers/put.handler
+handler: build/handlers/putRole.handler
 tags:
   put: player
 events:
@@ -37,4 +37,5 @@ iamRoleStatements:
   - Effect: Allow
     Action:
       - cognito-idp:AdminUpdateUserAttributes
+      - cognito-idp:AdminGetUser
     Resource: ${self:custom.userPoolArn}
