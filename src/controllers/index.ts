@@ -2,7 +2,7 @@ import { logFailure, logSuccess } from "mtglm-service-sdk/build/utils/logger";
 import { handleError, handleSuccess } from "mtglm-service-sdk/build/utils/response";
 
 import { LambdaResponse } from "mtglm-service-sdk/build/models/Lambda";
-import { PlayerCreateRequest, PlayerUpdateRequest } from "mtglm-service-sdk/build/models/Requests";
+import { PlayerCreateRequest, PlayerUpdateRequest, PlayerUpdateRoleRequest } from "mtglm-service-sdk/build/models/Requests";
 
 import * as service from "../services";
 import { PlayerQueryParameters } from "mtglm-service-sdk/build/models/QueryParameters";
@@ -75,6 +75,23 @@ export const update = async (
     return handleSuccess(result);
   } catch (error) {
     logFailure("DYNAMO", "PUT player", error);
+
+    return handleError(error);
+  }
+};
+
+export const updateRole = async (
+  playerId: string,
+  data: PlayerUpdateRoleRequest
+): Promise<LambdaResponse> => {
+  try {
+    const result = await service.updateRole(playerId, data);
+
+    logSuccess("DYNAMO", "PUT Role player", result);
+
+    return handleSuccess(result);
+  } catch (error) {
+    logFailure("DYNAMO", "PUT Role player", error);
 
     return handleError(error);
   }

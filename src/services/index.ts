@@ -8,8 +8,12 @@ import * as playerMapper from "mtglm-service-sdk/build/mappers/player";
 import * as queryMapper from "mtglm-service-sdk/build/mappers/query";
 
 import { SuccessResponse, PlayerResponse } from "mtglm-service-sdk/build/models/Responses";
-import { PlayerCreateRequest, PlayerUpdateRequest } from "mtglm-service-sdk/build/models/Requests";
 import { PlayerQueryParameters } from "mtglm-service-sdk/build/models/QueryParameters";
+import {
+  PlayerCreateRequest,
+  PlayerUpdateRequest,
+  PlayerUpdateRoleRequest
+} from "mtglm-service-sdk/build/models/Requests";
 
 import {
   PROPERTIES_PLAYER,
@@ -89,6 +93,24 @@ export const update = async (
   const item = playerMapper.toUpdateItem(data);
 
   const result = await playerClient.update({ playerId }, item);
+
+  return buildResponse(result);
+};
+
+export const updateRole = async (
+  playerId: string,
+  data: PlayerUpdateRoleRequest
+): Promise<PlayerResponse> => {
+  const result = await playerClient.fetchByKey({ playerId });
+
+  const userName = result.userName as string;
+
+  await cognito.adminUpdateUserAttribute(userName, [
+    {
+      Name: "custom:role",
+      Value: data.role
+    }
+  ]);
 
   return buildResponse(result);
 };
