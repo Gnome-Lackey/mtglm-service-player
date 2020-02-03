@@ -22,11 +22,11 @@ events:
             description: "ID of the player being updated"
             required: true
         requestModels:
-          "application/json": UpdatePlayerRequest
+          "application/json": UpdatePlayerRoleRequest
         methodResponses:
           - statusCode: "200"
             requestModels:
-              "application/json": PlayerResponse
+              "application/json": PlayerRoleResponse
           - statusCode: "500"
 iamRoleStatements:
   - Effect: Allow

@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "array",
+  "title": "RolesResponseSchema",
+  "items": {
+    "type": "object",
+    "title": "Role",
+    "required": ["id", "name", "userName", "email", "role"],
+    "properties": {
+      "id": {
+        "type": "string",
+        "title": "PlayerId"
+      },
+      "name": {
+        "type": "string",
+        "title": "PlayerName"
+      },
+      "userName": {
+        "type": "string",
+        "title": "PlayerUserName"
+      },
+      "email": {
+        "type": "string",
+        "title": "PlayerEmail"
+      },
+      "role": {
+        "type": "string",
+        "title": "PlayerRole"
+      }
+    }
+  }
+}

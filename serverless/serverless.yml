@@ -41,6 +41,7 @@ custom:
 
 functions:
   Get: ${file(partials/functions/get.yml)}
+  GetRoles: ${file(partials/functions/getRoles.yml)}
   Update: ${file(partials/functions/update.yml)}
   UpdateRole: ${file(partials/functions/updateRole.yml)}
   Create: ${file(partials/functions/create.yml)}

@@ -23,6 +23,14 @@ models:
   - name: "PlayersResponse"
     description: "List of player(s) response body."
     contentType: "application/json"
+    schema: ${file(models/responses/role.json)}
+  - name: "PlayerRoleResponse"
+    description: "List of player's roles response body."
+    contentType: "application/json"
+    schema: ${file(models/responses/roles.json)}
+  - name: "PlayerRolesResponse"
+    description: "List of all players roles response body."
+    contentType: "application/json"
     schema: ${file(models/responses/players.json)}
   - name: "SuccessResponse"
     description: "Success message response body."
@@ -33,6 +41,8 @@ resources:
     description: "Creates a new player."
   - path: Get
     description: "Retrieves a player."
+  - path: GetRoles
+    description: "Retrieves all roles for all players."
   - path: Delete
     description: "Deletes a player."
   - path: Update
