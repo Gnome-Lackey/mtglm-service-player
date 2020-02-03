@@ -37,5 +37,7 @@ resources:
     description: "Deletes a player."
   - path: Update
     description: "Updates an existing player."
+  - path: UpdateRole
+    description: "Updates an existing player's role."
   - path: Query
     description: "Retrieves all players."
