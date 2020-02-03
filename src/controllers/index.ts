@@ -35,6 +35,20 @@ export const get = async (playerId: string): Promise<LambdaResponse> => {
   }
 };
 
+export const getRoles = async (): Promise<LambdaResponse> => {
+  try {
+    const result = await service.getRoles();
+
+    logSuccess("DYNAMO", "GET player roles", result);
+
+    return handleSuccess(result);
+  } catch (error) {
+    logFailure("DYNAMO", "GET player roles", error);
+
+    return handleError(error);
+  }
+};
+
 export const query = async (queryParams: PlayerQueryParameters): Promise<LambdaResponse> => {
   try {
     const result = await service.query(queryParams);

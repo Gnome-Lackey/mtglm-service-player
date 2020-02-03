@@ -7,7 +7,11 @@ import { MTGLMDynamoClient } from "mtglm-service-sdk/build/clients/dynamo";
 import * as playerMapper from "mtglm-service-sdk/build/mappers/player";
 import * as queryMapper from "mtglm-service-sdk/build/mappers/query";
 
-import { SuccessResponse, PlayerResponse } from "mtglm-service-sdk/build/models/Responses";
+import {
+  SuccessResponse,
+  PlayerResponse,
+  PlayerRoleResponse
+} from "mtglm-service-sdk/build/models/Responses";
 import { PlayerQueryParameters } from "mtglm-service-sdk/build/models/QueryParameters";
 import {
   PlayerCreateRequest,
@@ -34,6 +38,23 @@ const buildResponse = (result: AttributeMap): PlayerResponse => {
   return {
     ...view,
     matches: node.matchIds
+  };
+};
+
+const buildRoleResponse = async (result: AttributeMap): Promise<PlayerRoleResponse> => {
+  const node = playerMapper.toRoleNode(result);
+  const view = playerMapper.toRoleView(node);
+
+  const user = await cognito.adminGetUser(node.userName);
+  const userRole = user.UserAttributes.find((attr) => attr.Name === "custom:role");
+
+  if (!userRole) {
+    throw new Error(`Could not fetch role from cognito for user: ${node.userName}.`);
+  }
+
+  return {
+    ...view,
+    role: userRole.Value as string
   };
 };
 
@@ -80,6 +101,16 @@ export const get = async (playerId: string): Promise<PlayerResponse> => {
   return buildResponse(result);
 };
 
+export const getRoles = async (): Promise<PlayerRoleResponse[]> => {
+  const players = await playerClient.query();
+
+  if (!players.length) {
+    return [];
+  }
+
+  return Promise.all(players.map(buildRoleResponse));
+};
+
 export const remove = async (playerId: string): Promise<SuccessResponse> => {
   await playerClient.remove({ playerId });
 
@@ -100,17 +131,15 @@ export const update = async (
 export const updateRole = async (
   playerId: string,
   data: PlayerUpdateRoleRequest
-): Promise<PlayerResponse> => {
+): Promise<PlayerRoleResponse> => {
   const result = await playerClient.fetchByKey({ playerId });
 
-  const userName = result.userName as string;
-
-  await cognito.adminUpdateUserAttribute(userName, [
+  await cognito.adminUpdateUserAttribute(result.userName as string, [
     {
       Name: "custom:role",
       Value: data.role
     }
   ]);
 
-  return buildResponse(result);
+  return await buildRoleResponse(result);
 };
