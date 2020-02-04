@@ -33,5 +33,4 @@ iamRoleStatements:
     Action:
       - dynamodb:GetItem
       - dynamodb:UpdateItem
-    Resource:
-      - Fn::GetAtt: [PlayersTable, Arn]
+    Resource: ${self:custom.playerTableArn}

@@ -1,4 +1,0 @@
-Description: 'Name of the dynamo players table'
-Value: ${self:provider.stage}-mtglm-players
-Export:
-  Name: ${self:provider.stage}-mtglm-PlayerTableName

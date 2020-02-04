@@ -27,5 +27,4 @@ iamRoleStatements:
   - Effect: Allow
     Action:
       - dynamodb:DeleteItem
-    Resource:
-      - Fn::GetAtt: [PlayersTable, Arn]
+    Resource: ${self:custom.playerTableArn}

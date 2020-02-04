@@ -24,6 +24,5 @@ iamRoleStatements:
     Action:
       - dynamodb:Scan
       - dynamodb:Query
-    Resource:
-      - Fn::GetAtt: [PlayersTable, Arn]
+    Resource: ${self:custom.playerTableArn}
       - Fn::ImportValue: ${self:provider.stage}-mtglm-SeasonTableArn
