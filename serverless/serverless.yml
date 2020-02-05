@@ -8,7 +8,8 @@ provider:
   memorySize: 128
   environment:
     ALLOWED_ORIGIN: ${env:ALLOWED_ORIGIN}
-    PLAYER_TABLE_NAME: ${self:provider.stage}-mtglm-players
+    PLAYER_TABLE_NAME:
+      Fn::ImportValue: ${self:provider.stage}-mtglm-PlayerTableName
     SEASON_TABLE_NAME:
       Fn::ImportValue: ${self:provider.stage}-mtglm-SeasonTableName
     USER_POOL_ID:
@@ -27,10 +28,6 @@ plugins:
 resources:
   Resources:
     PlayersApiGatewayAuthorizer: ${file(partials/apiGatewayAuthorizer.yml)}
-    PlayersTable: ${file(partials/dynamo.yml)}
-  Outputs:
-    playerTableArn: ${file(partials/outputs/TableArn.yml)}
-    playerTableName: ${file(partials/outputs/TableName.yml)}
 
 custom:
   documentation: ${file(partials/documentation.yml)}
@@ -38,6 +35,10 @@ custom:
     Fn::ImportValue: ${self:provider.stage}-mtglm-UserPoolArn
   userPoolName: 
     Fn::ImportValue: ${self:provider.stage}-mtglm-UserPoolName
+  playerTableArn: 
+    Fn::ImportValue: ${self:provider.stage}-mtglm-PlayerTableArn
+  seasonTableArn: 
+    Fn::ImportValue: ${self:provider.stage}-mtglm-SeasonTableArn
 
 functions:
   Get: ${file(partials/functions/get.yml)}
