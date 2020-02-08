@@ -32,6 +32,10 @@ models:
     description: "List of player's roles response body."
     contentType: "application/json"
     schema: ${file(models/responses/roles.json)}
+  - name: "PlayerSeasonMetadataResponse"
+    description: "Get season metadata for a given player response body."
+    contentType: "application/json"
+    schema: ${file(models/responses/seasonMetadata.json)}
   - name: "PlayerRolesResponse"
     description: "List of all players roles response body."
     contentType: "application/json"
@@ -47,6 +51,8 @@ resources:
     description: "Retrieves a player."
   - path: GetRoles
     description: "Retrieves all roles for all players."
+  - path: GetSeasonMetadata
+    description: "Retrieves season metadata for a given player."
   - path: Delete
     description: "Deletes a player."
   - path: Update
