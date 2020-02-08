@@ -10,7 +10,8 @@ import * as queryMapper from "mtglm-service-sdk/build/mappers/query";
 import {
   SuccessResponse,
   PlayerResponse,
-  PlayerRoleResponse
+  PlayerRoleResponse,
+  PlayerSeasonMetadataDetailsResponse
 } from "mtglm-service-sdk/build/models/Responses";
 import { PlayerQueryParameters } from "mtglm-service-sdk/build/models/QueryParameters";
 import {
@@ -21,23 +22,28 @@ import {
 
 import {
   PROPERTIES_PLAYER,
-  PROPERTIES_SEASON
+  PROPERTIES_SEASON,
+  PROPERTIES_PLAYER_SEASON_METADATA
 } from "mtglm-service-sdk/build/constants/mutable_properties";
 
 const Sentencer = require("sentencer");
 
-const { PLAYER_TABLE_NAME, SEASON_TABLE_NAME } = process.env;
+const { PLAYER_TABLE_NAME, SEASON_TABLE_NAME, SEASON_METADATA_TABLE } = process.env;
 
 const playerClient = new MTGLMDynamoClient(PLAYER_TABLE_NAME, PROPERTIES_PLAYER);
 const seasonClient = new MTGLMDynamoClient(SEASON_TABLE_NAME, PROPERTIES_SEASON);
+
+const seasonMetadataClient = new MTGLMDynamoClient(
+  SEASON_METADATA_TABLE,
+  PROPERTIES_PLAYER_SEASON_METADATA
+);
 
 const buildResponse = (result: AttributeMap): PlayerResponse => {
   const node = playerMapper.toNode(result);
   const view = playerMapper.toView(node);
 
   return {
-    ...view,
-    matches: node.matchIds
+    ...view
   };
 };
 
@@ -55,6 +61,25 @@ const buildRoleResponse = async (result: AttributeMap): Promise<PlayerRoleRespon
   return {
     ...view,
     role: userRole.Value as string
+  };
+};
+
+const buildSeasonMetadataResponse = async (
+  result: AttributeMap
+): Promise<PlayerSeasonMetadataDetailsResponse> => {
+  const node = playerMapper.toSeasonMetadataNode(result);
+  const view = playerMapper.toSeasonMetadataView(node);
+
+  const opponentResults = await playerClient.fetchByKeys(
+    node.playedOpponentIds.map((playerId) => ({ playerId }))
+  );
+
+  const opponentNodes = opponentResults.map(playerMapper.toNode);
+  const opponentViews = opponentNodes.map(playerMapper.toView);
+
+  return {
+    ...view,
+    playedOpponents: opponentViews
   };
 };
 
@@ -109,6 +134,21 @@ export const getRoles = async (): Promise<PlayerRoleResponse[]> => {
   }
 
   return Promise.all(players.map(buildRoleResponse));
+};
+
+export const getSeasonMetadata = async (
+  playerId: string,
+  seasonId: string
+): Promise<PlayerSeasonMetadataDetailsResponse> => {
+  const seasonMetadataResults = await seasonMetadataClient.query({ playerId, seasonId });
+
+  if (!seasonMetadataResults.length) {
+    throw new Error("Error getting metadata. Invalid player or season id supplied.");
+  }
+
+  const seasonMetadata = seasonMetadataResults[0];
+
+  return await buildSeasonMetadataResponse(seasonMetadata);
 };
 
 export const remove = async (playerId: string): Promise<SuccessResponse> => {

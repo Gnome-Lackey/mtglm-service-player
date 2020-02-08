@@ -49,6 +49,20 @@ export const getRoles = async (): Promise<LambdaResponse> => {
   }
 };
 
+export const getSeasonMetadata = async (playerId: string, seasonId: string): Promise<LambdaResponse> => {
+  try {
+    const result = await service.getSeasonMetadata(playerId, seasonId);
+
+    logSuccess("DYNAMO", "GET player season metadata", result);
+
+    return handleSuccess(result);
+  } catch (error) {
+    logFailure("DYNAMO", "GET player season metadata", error);
+
+    return handleError(error);
+  }
+};
+
 export const query = async (queryParams: PlayerQueryParameters): Promise<LambdaResponse> => {
   try {
     const result = await service.query(queryParams);
