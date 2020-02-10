@@ -15,14 +15,6 @@
       "type": "string",
       "title": "PlayerEmail"
     },
-    "totalWins": {
-      "type": "integer",
-      "title": "PlayerTotalWins"
-    },
-    "totalLosses": {
-      "type": "integer",
-      "title": "PlayerTotalLosses"
-    },
     "epithet": {
       "type": "string",
       "title": "PlayerEpithet"
@@ -32,14 +24,6 @@
       "title": "PlayerFavoriteColors",
       "items": {
         "type": "string"
-      }
-    },
-    "matches": {
-      "type": "array",
-      "title": "PlayerMatchIds",
-      "items": {
-        "type": "string",
-        "title": "PlayerMatchId"
       }
     }
   }
