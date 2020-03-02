@@ -5,16 +5,14 @@ import * as cognito from "mtglm-service-sdk/build/clients/cognito";
 import { MTGLMDynamoClient } from "mtglm-service-sdk/build/clients/dynamo";
 
 import * as playerMapper from "mtglm-service-sdk/build/mappers/player";
+import * as seasonMapper from "mtglm-service-sdk/build/mappers/season";
 
+import { PlayerQueryParameters } from "mtglm-service-sdk/build/models/QueryParameters";
 import {
   SuccessResponse,
   PlayerResponse,
   PlayerRoleResponse
 } from "mtglm-service-sdk/build/models/Responses";
-import {
-  PlayerQueryParameters,
-  SeasonQueryParams
-} from "mtglm-service-sdk/build/models/QueryParameters";
 import {
   PlayerCreateRequest,
   PlayerUpdateRequest,
@@ -79,12 +77,14 @@ export const create = async (data: PlayerCreateRequest): Promise<PlayerResponse>
 };
 
 export const query = async (queryParams: PlayerQueryParameters): Promise<PlayerResponse[]> => {
-  let players = await playerClient.query(queryParams);
+  const playerFilters = playerMapper.toFilters(queryParams);
 
-  if (queryParams.seasonId) {
-    const seasonQueryParams = { seasonId: queryParams.seasonId } as SeasonQueryParams;
+  let players = await playerClient.query(playerFilters);
 
-    const seasons = await seasonClient.query(seasonQueryParams);
+  if (playerFilters.seasonId) {
+    const seasonFilters = seasonMapper.toFilters({ season: playerFilters.seasonId });
+
+    const seasons = await seasonClient.query(seasonFilters);
 
     const seasonPlayerIds = seasons[0] ? (seasons[0].playerIds as string[]) : [];
 
