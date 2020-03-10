@@ -81,8 +81,8 @@ export const query = async (queryParams: PlayerQueryParameters): Promise<PlayerR
 
   let players = await playerClient.query(playerFilters);
 
-  if (playerFilters.seasonId) {
-    const seasonFilters = seasonMapper.toFilters({ season: playerFilters.seasonId });
+  if (queryParams.season) {
+    const seasonFilters = seasonMapper.toFilters({ season: queryParams.season });
 
     const seasons = await seasonClient.query(seasonFilters);
 
