@@ -4,7 +4,9 @@ import { LambdaResponse } from "mtglm-service-sdk/build/models/Lambda";
 import { PlayerPathParameters } from "mtglm-service-sdk/build/models/PathParameters";
 import { PlayerCreateRequest } from "mtglm-service-sdk/build/models/Requests";
 
-import * as controller from "../controllers";
+import PlayerController from "../controllers";
+
+const controller = new PlayerController();
 
 module.exports.handler = requestMiddleware(
   async (path: PlayerPathParameters, data: PlayerCreateRequest): Promise<LambdaResponse> => {
