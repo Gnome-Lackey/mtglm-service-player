@@ -31,13 +31,13 @@ resources:
 
 custom:
   documentation: ${file(partials/documentation.yml)}
-  userPoolArn: 
+  userPoolArn:
     Fn::ImportValue: ${self:provider.stage}-mtglm-UserPoolArn
-  userPoolName: 
+  userPoolName:
     Fn::ImportValue: ${self:provider.stage}-mtglm-UserPoolName
-  playerTableArn: 
+  playerTableArn:
     Fn::ImportValue: ${self:provider.stage}-mtglm-PlayerTableArn
-  seasonTableArn: 
+  seasonTableArn:
     Fn::ImportValue: ${self:provider.stage}-mtglm-SeasonTableArn
 
 functions:
