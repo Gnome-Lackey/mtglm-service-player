@@ -1,26 +1,31 @@
-name: ${self:provider.stage}-mtglm-players-get
-handler: build/handlers/get.handler
+name: ${self:provider.stage}-mtglm-players-roles-get
+handler: build/handlers/getRoles.handler
 tags:
   get: player
 events:
   - http:
       method: get
-      path: players/{playerId}
+      path: players/roles
       authorizer: ${file(partials/common/authorizer.yml)}
       cors: ${file(partials/common/cors.yml)}
       documentation:
-        summary: "GET Player"
-        description: "Get player"
+        summary: "GET all roles for all players"
+        description: "get all roles for all players"
         requestHeaders:
           - name: "Authorization"
             description: "Authorization token is needed to access the endpoint."
         methodResponses:
           - statusCode: "200"
             requestModels:
-              "application/json": PlayerResponse
+              "application/json": PlayerRolesResponse
           - statusCode: "500"
 iamRoleStatements:
   - Effect: Allow
     Action:
       - dynamodb:Query
+      - dynamodb:Scan
     Resource: ${self:custom.playerTableArn}
+  - Effect: Allow
+    Action:
+      - cognito-idp:AdminGetUser
+    Resource: ${self:custom.userPoolArn}

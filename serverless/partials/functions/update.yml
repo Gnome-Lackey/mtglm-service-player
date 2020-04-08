@@ -1,19 +1,28 @@
-name: ${self:provider.stage}-mtglm-players-get
-handler: build/handlers/get.handler
+name: ${self:provider.stage}-mtglm-players-put
+handler: build/handlers/put.handler
 tags:
-  get: player
+  put: player
 events:
   - http:
-      method: get
+      method: put
       path: players/{playerId}
+      request:
+        schema:
+          application/json: ${file(models/requests/update.json)}
       authorizer: ${file(partials/common/authorizer.yml)}
       cors: ${file(partials/common/cors.yml)}
       documentation:
-        summary: "GET Player"
-        description: "Get player"
+        summary: "PUT Player"
+        description: "Update an existing player."
         requestHeaders:
           - name: "Authorization"
             description: "Authorization token is needed to access the endpoint."
+        pathParams:
+          - name: "playerId"
+            description: "ID of the player being updated"
+            required: true
+        requestModels:
+          "application/json": UpdatePlayerRequest
         methodResponses:
           - statusCode: "200"
             requestModels:
@@ -22,5 +31,6 @@ events:
 iamRoleStatements:
   - Effect: Allow
     Action:
-      - dynamodb:Query
+      - dynamodb:GetItem
+      - dynamodb:UpdateItem
     Resource: ${self:custom.playerTableArn}

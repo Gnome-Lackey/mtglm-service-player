@@ -1,16 +1,19 @@
-name: ${self:provider.stage}-mtglm-players-get
-handler: build/handlers/get.handler
+name: ${self:provider.stage}-mtglm-players-post
+handler: build/handlers/post.handler
 tags:
-  get: player
+  post: player
 events:
   - http:
-      method: get
-      path: players/{playerId}
+      method: post
+      path: players
+      request:
+        schema:
+          application/json: ${file(models/requests/create.json)}
       authorizer: ${file(partials/common/authorizer.yml)}
       cors: ${file(partials/common/cors.yml)}
       documentation:
-        summary: "GET Player"
-        description: "Get player"
+        summary: "POST Player"
+        description: "Create new player"
         requestHeaders:
           - name: "Authorization"
             description: "Authorization token is needed to access the endpoint."
@@ -22,5 +25,10 @@ events:
 iamRoleStatements:
   - Effect: Allow
     Action:
-      - dynamodb:Query
+      - dynamodb:GetItem
+      - dynamodb:PutItem
     Resource: ${self:custom.playerTableArn}
+  - Effect: Allow
+    Action:
+      - cognito-idp:AdminUpdateUserAttributes
+    Resource: ${self:custom.userPoolArn}

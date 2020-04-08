@@ -1,8 +1,8 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
-  "title": "PlayerResponseSchema",
-  "required": ["id", "name", "userName", "email"],
+  "title": "RoleResponseSchema",
+  "required": ["id", "name", "userName", "email", "role"],
   "properties": {
     "id": {
       "type": "string",
@@ -20,16 +20,9 @@
       "type": "string",
       "title": "PlayerEmail"
     },
-    "epithet": {
+    "role": {
       "type": "string",
-      "title": "PlayerEpithet"
-    },
-    "favoriteColors": {
-      "type": "array",
-      "title": "PlayerFavoriteColors",
-      "items": {
-        "type": "string"
-      }
+      "title": "PlayerRole"
     }
   }
 }

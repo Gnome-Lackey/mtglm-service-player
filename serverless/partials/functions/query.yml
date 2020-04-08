@@ -9,18 +9,21 @@ events:
       authorizer: ${file(partials/common/authorizer.yml)}
       cors: ${file(partials/common/cors.yml)}
       documentation:
-        summary: "GET Player"
-        description: "Query all players"
+        summary: "GET all Players"
+        description: "Get all players"
         requestHeaders:
           - name: "Authorization"
             description: "Authorization token is needed to access the endpoint."
         methodResponses:
           - statusCode: "200"
             requestModels:
-              "application/json": PlayersResponse
+              "application/json": PlayerResponse
           - statusCode: "500"
 iamRoleStatements:
   - Effect: Allow
     Action:
-      - cognito-idp:ListUsers
-    Resource: ${self:custom.userPoolArn}
+      - dynamodb:Scan
+      - dynamodb:Query
+    Resource:
+      - ${self:custom.playerTableArn}
+      - ${self:custom.seasonTableArn}

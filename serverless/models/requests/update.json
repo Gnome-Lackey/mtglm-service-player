@@ -1,13 +1,8 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
-  "title": "PlayerResponseSchema",
-  "required": ["id", "name", "userName", "email"],
+  "title": "UpdatePlayerSchema",
   "properties": {
-    "id": {
-      "type": "string",
-      "title": "PlayerId"
-    },
     "name": {
       "type": "string",
       "title": "PlayerName"

@@ -4,6 +4,22 @@ api:
     title: "Player API"
     description: "API for generic player details."
 models:
+  - name: "CreatePlayerRequest"
+    description: "Create player request body."
+    contentType: "application/json"
+    schema: ${file(models/requests/create.json)}
+  - name: "UpdatePlayerRequest"
+    description: "Update player request body."
+    contentType: "application/json"
+    schema: ${file(models/requests/update.json)}
+  - name: "UpdatePlayerRoleRequest"
+    description: "Update player role request body."
+    contentType: "application/json"
+    schema: ${file(models/requests/updateRole.json)}
+  - name: "CreatePlayerResponse"
+    description: "Create player response body."
+    contentType: "application/json"
+    schema: ${file(models/responses/player.json)}
   - name: "PlayerResponse"
     description: "Get specific player response body."
     contentType: "application/json"
@@ -11,17 +27,31 @@ models:
   - name: "PlayersResponse"
     description: "List of player(s) response body."
     contentType: "application/json"
+    schema: ${file(models/responses/role.json)}
+  - name: "PlayerRoleResponse"
+    description: "List of player's roles response body."
+    contentType: "application/json"
+    schema: ${file(models/responses/roles.json)}
+  - name: "PlayerRolesResponse"
+    description: "List of all players roles response body."
+    contentType: "application/json"
     schema: ${file(models/responses/players.json)}
   - name: "SuccessResponse"
     description: "Success message response body."
     contentType: "application/json"
     schema: ${file(models/responses/success.json)}
 resources:
-  - path: Query
-    description: "Query all players."
+  - path: Create
+    description: "Creates a new player."
   - path: Get
     description: "Retrieves a player."
+  - path: GetRoles
+    description: "Retrieves all roles for all players."
   - path: Delete
     description: "Deletes a player."
   - path: Update
     description: "Updates an existing player."
+  - path: UpdateRole
+    description: "Updates an existing player's role."
+  - path: Query
+    description: "Retrieves all players."

@@ -1,26 +1,30 @@
-name: ${self:provider.stage}-mtglm-players-get
-handler: build/handlers/get.handler
+name: ${self:provider.stage}-mtglm-players-delete
+handler: build/handlers/delete.handler
 tags:
-  get: player
+  delete: player
 events:
   - http:
-      method: get
+      method: delete
       path: players/{playerId}
       authorizer: ${file(partials/common/authorizer.yml)}
       cors: ${file(partials/common/cors.yml)}
       documentation:
-        summary: "GET Player"
-        description: "Get player"
+        summary: "DELETE Player"
+        description: "Remove an existing player."
         requestHeaders:
           - name: "Authorization"
             description: "Authorization token is needed to access the endpoint."
+        pathParams:
+          - name: "playerId"
+            description: "ID of the player being removed"
+            required: true
         methodResponses:
           - statusCode: "200"
             requestModels:
-              "application/json": PlayerResponse
+              "application/json": SuccessResponse
           - statusCode: "500"
 iamRoleStatements:
   - Effect: Allow
     Action:
-      - dynamodb:Query
+      - dynamodb:DeleteItem
     Resource: ${self:custom.playerTableArn}
