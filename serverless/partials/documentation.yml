@@ -41,8 +41,8 @@ models:
     contentType: "application/json"
     schema: ${file(models/responses/success.json)}
 resources:
-  - path: Query
-    description: "Query all players."
+  - path: Create
+    description: "Creates a new player."
   - path: Get
     description: "Retrieves a player."
   - path: GetRoles
