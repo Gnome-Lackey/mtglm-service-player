@@ -36,14 +36,14 @@ export default class PlayerService {
   private playerMapper = new PlayerMapper();
   private seasonMapper = new SeasonMapper();
 
-  buildResponse(result: AttributeMap): PlayerResponse {
+  buildResponse = (result: AttributeMap): PlayerResponse => {
     const node = this.playerMapper.toNode(result);
     const view = this.playerMapper.toView(node);
 
     return { ...view };
-  }
+  };
 
-  async buildRoleResponse(result: AttributeMap): Promise<PlayerRoleResponse> {
+  buildRoleResponse = async (result: AttributeMap): Promise<PlayerRoleResponse> => {
     const node = this.playerMapper.toRoleNode(result);
     const view = this.playerMapper.toRoleView(node);
 
@@ -58,9 +58,9 @@ export default class PlayerService {
       ...view,
       role: userRole.Value as string
     };
-  }
+  };
 
-  async create(data: PlayerCreateRequest): Promise<PlayerResponse> {
+  create = async (data: PlayerCreateRequest): Promise<PlayerResponse> => {
     const item = this.playerMapper.toCreateItem(data);
 
     if (item.epithet === "[[random]]") {
@@ -77,9 +77,9 @@ export default class PlayerService {
     ]);
 
     return this.buildResponse(result);
-  }
+  };
 
-  async query(queryParams: PlayerQueryParameters): Promise<PlayerResponse[]> {
+  query = async (queryParams: PlayerQueryParameters): Promise<PlayerResponse[]> => {
     const playerFilters = this.playerMapper.toFilters(queryParams);
 
     let players = await this.playerClient.query(playerFilters);
@@ -97,15 +97,15 @@ export default class PlayerService {
     }
 
     return players.map(this.buildResponse);
-  }
+  };
 
-  async get(playerId: string): Promise<PlayerResponse> {
+  get = async (playerId: string): Promise<PlayerResponse> => {
     const result = await this.playerClient.fetchByKey({ playerId });
 
     return this.buildResponse(result);
-  }
+  };
 
-  async getRoles(): Promise<PlayerRoleResponse[]> {
+  getRoles = async (): Promise<PlayerRoleResponse[]> => {
     const players = await this.playerClient.query();
 
     if (!players.length) {
@@ -113,23 +113,26 @@ export default class PlayerService {
     }
 
     return Promise.all(players.map(this.buildRoleResponse));
-  }
+  };
 
-  async remove(playerId: string): Promise<SuccessResponse> {
+  remove = async (playerId: string): Promise<SuccessResponse> => {
     await this.playerClient.remove({ playerId });
 
     return { message: "Successfully deleted player." };
-  }
+  };
 
-  async update(playerId: string, data: PlayerUpdateRequest): Promise<PlayerResponse> {
+  update = async (playerId: string, data: PlayerUpdateRequest): Promise<PlayerResponse> => {
     const item = this.playerMapper.toUpdateItem(data);
 
     const result = await this.playerClient.update({ playerId }, item);
 
     return this.buildResponse(result);
-  }
+  };
 
-  async updateRole(playerId: string, data: PlayerUpdateRoleRequest): Promise<PlayerRoleResponse> {
+  updateRole = async (
+    playerId: string,
+    data: PlayerUpdateRoleRequest
+  ): Promise<PlayerRoleResponse> => {
     const result = await this.playerClient.fetchByKey({ playerId });
 
     await this.cognitoClient.adminUpdateUserAttribute(result.userName as string, [
@@ -140,5 +143,5 @@ export default class PlayerService {
     ]);
 
     return await this.buildRoleResponse(result);
-  }
+  };
 }

@@ -1,5 +1,5 @@
-import { logFailure, logSuccess } from "mtglm-service-sdk/build/utils/logger";
-import { handleError, handleSuccess } from "mtglm-service-sdk/build/utils/response";
+import MTGLMLogger from "mtglm-service-sdk/build/utils/logger";
+import ResponseHandler from "mtglm-service-sdk/build/utils/response";
 
 import { LambdaResponse } from "mtglm-service-sdk/build/models/Lambda";
 import { PlayerQueryParameters } from "mtglm-service-sdk/build/models/QueryParameters";
@@ -14,101 +14,104 @@ import PlayerService from "../services";
 export default class PlayerController {
   private service = new PlayerService();
 
-  async create(data: PlayerCreateRequest): Promise<LambdaResponse> {
+  private logger = new MTGLMLogger();
+  private responseHandler = new ResponseHandler();
+
+  create = async (data: PlayerCreateRequest): Promise<LambdaResponse> => {
     try {
       const result = await this.service.create(data);
 
-      logSuccess("DYNAMO", "POST player", result);
+      this.logger.success("DYNAMO", "POST player", result);
 
-      return handleSuccess(result);
+      return this.responseHandler.success(result);
     } catch (error) {
-      logFailure("DYNAMO", "POST player", error);
+      this.logger.failure("DYNAMO", "POST player", error);
 
-      return handleError(error);
+      return this.responseHandler.error(error);
     }
-  }
+  };
 
-  async get(playerId: string): Promise<LambdaResponse> {
+  get = async (playerId: string): Promise<LambdaResponse> => {
     try {
       const result = await this.service.get(playerId);
 
-      logSuccess("DYNAMO", "GET player", result);
+      this.logger.success("DYNAMO", "GET player", result);
 
-      return handleSuccess(result);
+      return this.responseHandler.success(result);
     } catch (error) {
-      logFailure("DYNAMO", "GET player", error);
+      this.logger.failure("DYNAMO", "GET player", error);
 
-      return handleError(error);
+      return this.responseHandler.error(error);
     }
-  }
+  };
 
-  async getRoles(): Promise<LambdaResponse> {
+  getRoles = async (): Promise<LambdaResponse> => {
     try {
       const result = await this.service.getRoles();
 
-      logSuccess("DYNAMO", "GET player roles", result);
+      this.logger.success("DYNAMO", "GET player roles", result);
 
-      return handleSuccess(result);
+      return this.responseHandler.success(result);
     } catch (error) {
-      logFailure("DYNAMO", "GET player roles", error);
+      this.logger.failure("DYNAMO", "GET player roles", error);
 
-      return handleError(error);
+      return this.responseHandler.error(error);
     }
-  }
+  };
 
-  async query(queryParams: PlayerQueryParameters): Promise<LambdaResponse> {
+  query = async (queryParams: PlayerQueryParameters): Promise<LambdaResponse> => {
     try {
       const result = await this.service.query(queryParams);
 
-      logSuccess("DYNAMO", "GET all players", result);
+      this.logger.success("DYNAMO", "GET all players", result);
 
-      return handleSuccess(result);
+      return this.responseHandler.success(result);
     } catch (error) {
-      logFailure("DYNAMO", "GET all players", error);
+      this.logger.failure("DYNAMO", "GET all players", error);
 
-      return handleError(error);
+      return this.responseHandler.error(error);
     }
-  }
+  };
 
-  async remove(playerId: string): Promise<LambdaResponse> {
+  remove = async (playerId: string): Promise<LambdaResponse> => {
     try {
       const result = await this.service.remove(playerId);
 
-      logSuccess("DYNAMO", "DELETE player", result);
+      this.logger.success("DYNAMO", "DELETE player", result);
 
-      return handleSuccess(result);
+      return this.responseHandler.success(result);
     } catch (error) {
-      logFailure("DYNAMO", "DELETE player", error);
+      this.logger.failure("DYNAMO", "DELETE player", error);
 
-      return handleError(error);
+      return this.responseHandler.error(error);
     }
-  }
+  };
 
-  async update(playerId: string, data: PlayerUpdateRequest): Promise<LambdaResponse> {
+  update = async (playerId: string, data: PlayerUpdateRequest): Promise<LambdaResponse> => {
     try {
       const result = await this.service.update(playerId, data);
 
-      logSuccess("DYNAMO", "PUT player", result);
+      this.logger.success("DYNAMO", "PUT player", result);
 
-      return handleSuccess(result);
+      return this.responseHandler.success(result);
     } catch (error) {
-      logFailure("DYNAMO", "PUT player", error);
+      this.logger.failure("DYNAMO", "PUT player", error);
 
-      return handleError(error);
+      return this.responseHandler.error(error);
     }
-  }
+  };
 
-  async updateRole(playerId: string, data: PlayerUpdateRoleRequest): Promise<LambdaResponse> {
+  updateRole = async (playerId: string, data: PlayerUpdateRoleRequest): Promise<LambdaResponse> => {
     try {
       const result = await this.service.updateRole(playerId, data);
 
-      logSuccess("DYNAMO", "PUT Role player", result);
+      this.logger.success("DYNAMO", "PUT Role player", result);
 
-      return handleSuccess(result);
+      return this.responseHandler.success(result);
     } catch (error) {
-      logFailure("DYNAMO", "PUT Role player", error);
+      this.logger.failure("DYNAMO", "PUT Role player", error);
 
-      return handleError(error);
+      return this.responseHandler.error(error);
     }
-  }
+  };
 }
